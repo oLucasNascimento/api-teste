@@ -3,7 +3,7 @@ package br.com.learntests.api.service.impl;
 import br.com.learntests.api.domain.User;
 import br.com.learntests.api.domain.dto.UserDTO;
 import br.com.learntests.api.repository.UserRepository;
-import br.com.learntests.api.service.exception.DataIntegratyViolationException;
+import br.com.learntests.api.service.exception.DataIntegrityViolationException;
 import br.com.learntests.api.service.exception.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class UserServiceImplTest {
     public static final String NAME = "Lucas";
     public static final String MAIL = "luquinha@mail.com";
     public static final String PASSWORD = "123";
-    public static final String OBJETO_NÃO_ENCONTRADO = "Objeto não encontrado";
+    public static final String OBJETO_NAO_ENCONTRADO = "Objeto não encontrado";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -63,12 +63,12 @@ class UserServiceImplTest {
 
     @Test
     void whenFindByIdThenReturnAnObjectNotFoundException() {
-        when(this.repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NÃO_ENCONTRADO));
+        when(this.repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
         try {
             this.service.findById(ID);
         } catch (Exception ex) {
             assertEquals(ObjectNotFoundException.class, ex.getClass());
-            assertEquals(OBJETO_NÃO_ENCONTRADO, ex.getMessage());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ class UserServiceImplTest {
             optionalUser.get().setId(2);
             this.service.create(userDTO);
         } catch (Exception ex){
-            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
             assertEquals("Email já cadastrado no sistema", ex.getMessage());
         }
     }
@@ -140,7 +140,7 @@ class UserServiceImplTest {
             optionalUser.get().setId(2);
             this.service.update(userDTO);
         } catch (Exception ex){
-            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
             assertEquals("Email já cadastrado no sistema", ex.getMessage());
         }
     }
@@ -156,13 +156,13 @@ class UserServiceImplTest {
 
     @Test
     void deleteWithObjectNotFoundException(){
-        when(this.repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NÃO_ENCONTRADO));
+        when(this.repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
 
         try{
            this.service.delete(ID);
         } catch (Exception ex){
             assertEquals(ObjectNotFoundException.class, ex.getClass());
-            assertEquals(OBJETO_NÃO_ENCONTRADO, ex.getMessage());
+            assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
         }
 
     }
